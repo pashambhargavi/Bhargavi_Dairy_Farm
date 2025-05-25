@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart - Bhargavi Dairy & Veggie Farm</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Navigation Bar (same as main page for consistency) -->
+    <nav class="bg-gray-900 text-white p-3">
+        <div class="container mx-auto flex items-center justify-between">
+            <div class="text-2xl font-bold">
+                <a href="/">Chinnu's Farm</a>
+            </div>
+            <div class="nav-search mx-4 flex-1 max-w-[600px]">
+                <div class="flex">
+                    <input type="text" placeholder="Search for dairy or vegetables..." class="w-full p-2 rounded-l-md border border-gray-300 focus:outline-none">
+                    <button class="bg-yellow-400 text-black p-2 rounded-r-md hover:bg-yellow-500">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <a href="#" class="hover:underline">Account</a>
+                <a href="/cart.html" class="hover:underline flex items-center relative">
+                    <svg class="w-6 h-6 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    </svg>
+                    Cart
+                    <span id="cart-count" class="cart-count bg-red-500 text-white rounded-full px-2 py-1 text-xs absolute top-[-10px] right-[-10px]">0</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Cart Display Section -->
+    <main class="container mx-auto py-6">
+        <h1 class="text-3xl font-bold mb-6">Your Cart</h1>
+        <table class="w-full bg-white rounded-md border border-gray-200">
+            <thead>
+                <tr class="bg-gray-100">
+                    <th class="p-3 text-left">Item</th>
+                    <th class="p-3 text-left">Price</th>
+                    <th class="p-3 text-left">Quantity</th>
+                    <th class="p-3 text-left">Total</th>
+                    <th class="p-3 text-left">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="cart-items">
+                <!-- Cart items will be inserted here dynamically -->
+            </tbody>
+        </table>
+        <p id="grand-total" class="text-xl font-bold mt-4">Grand Total: ₹0.00</p>
+    </main>
+
+    <!-- Footer (same as main page) -->
+    <footer class="bg-gray-800 text-white py-6">
+        <div class="container mx-auto text-center">
+            <div class="flex justify-center space-x-6 mb-4">
+                <a href="#" class="hover:underline">About Us</a>
+                <a href="#" class="hover:underline">Contact</a>
+                <a href="#" class="hover:underline">Terms & Conditions</a>
+                <a href="#" class="hover:underline">Privacy Policy</a>
+            </div>
+            <p>© 2025 Chinnu's Dairy & Veggie Farm. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript to Manage Cart Display -->
+    <script>
+        // Function to render cart items
+        function renderCart() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartItems = document.getElementById('cart-items');
+            const grandTotalElement = document.getElementById('grand-total');
+
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<tr><td colspan="5" class="p-3 text-center">Your cart is empty.</td></tr>';
+                grandTotalElement.textContent = 'Grand Total: $0.00';
+            } else {
+                let html = '';
+                let grandTotal = 0;
+                cart.forEach(item => {
+                    const total = item.price * item.quantity;
+                    grandTotal += total;
+                    html += `
+                        <tr>
+                            <td class="p-3">${item.name}</td>
+                            <td class="p-3">₹${item.price.toFixed(2)}</td>
+                            <td class="p-3">
+                                <button class="decrease-quantity bg-gray-200 px-2 py-1 rounded hover:bg-gray-300" data-id="${item.id}">-</button>
+                                ${item.quantity}
+                                <button class="increase-quantity bg-gray-200 px-2 py-1 rounded hover:bg-gray-300" data-id="${item.id}">+</button>
+                            </td>
+                            <td class="p-3">₹${total.toFixed(2)}</td>
+                            <td class="p-3">
+                                <button class="remove-item bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600" data-id="${item.id}">Remove</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                cartItems.innerHTML = html;
+                grandTotalElement.textContent = `Grand Total: ₹${grandTotal.toFixed(2)}`;
+            }
+        }
+
+        // Function to update cart count in the navigation bar
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+            document.getElementById('cart-count').textContent = cartCount;
+        }
+
+        // Event listener for quantity adjustments and item removal
+        document.addEventListener('click', (e) => {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+            if (e.target.classList.contains('increase-quantity')) {
+                const id = e.target.getAttribute('data-id');
+                const item = cart.find(item => item.id === id);
+                if (item) {
+                    item.quantity += 1;
+                }
+            } else if (e.target.classList.contains('decrease-quantity')) {
+                const id = e.target.getAttribute('data-id');
+                const item = cart.find(item => item.id === id);
+                if (item && item.quantity > 1) {
+                    item.quantity -= 1;
+                } else if (item && item.quantity === 1) {
+                    cart = cart.filter(item => item.id !== id);
+                }
+            } else if (e.target.classList.contains('remove-item')) {
+                const id = e.target.getAttribute('data-id');
+                cart = cart.filter(item => item.id !== id);
+            }
+
+            // Update localStorage and refresh display
+            localStorage.setItem('cart', JSON.stringify(cart));
+            renderCart();
+            updateCartCount();
+        });
+
+        // Initialize cart display on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCart();
+            updateCartCount();
+        });
+    </script>
+</body>
+</html>

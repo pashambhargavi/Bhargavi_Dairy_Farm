@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bhargavi Dairy & Veggie Farm</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+      }
+      @tailwind base;
+      @tailwind components;
+      @tailwind utilities;
+      .product-card {
+        transition: transform 0.2s;
+      }
+      .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .nav-search {
+        flex: 1;
+        max-width: 600px;
+        color: black;
+      }
+      .add-to-cart-btn {
+        background-color: #f0c14b;
+        border-color: #a88734 #9c7e31 #846a29;
+      }
+      .add-to-cart-btn:hover {
+        background-color: #e0b038;
+      }
+      .cart-count {
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        background-color: red;
+        color: white;
+        border-radius: 50%;
+        padding: 2px 6px;
+        font-size: 12px;
+      }
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 50;
+        align-items: center;
+        justify-content: center;
+      }
+      .modal-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        width: 90%;
+        max-width: 400px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100">
+    <nav class="bg-gray-900 text-white p-3">
+      <div class="container mx-auto flex items-center justify-between">
+        <div class="text-2xl font-bold">
+          <a href="/index.html">Bhargavi Farm</a>
+          <!-- <a href="/cart.html">Click Here</a> -->
+        </div>
+        <div class="nav-search mx-4">
+          <div class="flex">
+            <input
+              type="text"
+              id="search-input"
+              placeholder="Search for dairy or vegetables..."
+              class="w-full p-2 rounded-l-md border border-gray-300 focus:outline-none"
+            />
+            <button
+              class="bg-yellow-400 text-black p-2 rounded-r-md hover:bg-yellow-500"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                ></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="flex items-center space-x-4">
+          <!-- <a href="#" class="hover:underline">Account</a> -->
+          <a
+            href="#"
+            id="account-link"
+            class="hover:text-yellow-400 transition-colors"
+            >Account</a
+          >
+          <a
+            href="#"
+            id="help-desk-link"
+            class="hover:text-yellow-400 transition-colors"
+            >Help Desk</a
+          >
+          <a
+            href="/cart.html"
+            class="hover:underline flex items-center relative"
+          >
+            <svg
+              class="w-6 h-6 mr-1"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+              ></path>
+            </svg>
+            Cart
+            <span id="cart-count" class="cart-count">0</span>
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <div id="login-modal" class="modal">
+      <div class="modal-content">
+        <h2 class="text-xl font-bold mb-4">Login to Your Account</h2>
+        <form id="login-form">
+          <div class="mb-4">
+            <label for="email" class="block text-sm font-medium text-gray-700"
+              >Email</label
+            >
+            <input
+              type="email"
+              id="email"
+              class="w-full p-2 border rounded-md focus:ring-2 focus:ring-green-500"
+              required
+            />
+          </div>
+          <div class="mb-4">
+            <label
+              for="password"
+              class="block text-sm font-medium text-gray-700"
+              >Password</label
+            >
+            <input
+              type="password"
+              id="password"
+              class="w-full p-2 border rounded-md focus:ring-2 focus:ring-green-500"
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            class="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition-colors"
+          >
+            Sign In
+          </button>
+          <button
+            type="button"
+            id="close-modal"
+            class="w-full mt-2 bg-gray-300 text-gray-700 py-2 rounded-md hover:bg-gray-400 transition-colors"
+          >
+            Cancel
+          </button>
+        </form>
+        <p id="login-error" class="text-red-500 mt-2 hidden">
+          Invalid email or password.
+        </p>
+      </div>
+    </div>
+    <!-- Referral Section -->
+    <div id="referral-section" class="container mx-auto py-4 hidden">
+      <div class="bg-white p-6 rounded-md border border-gray-200 shadow-sm">
+        <h2 class="text-xl font-bold mb-4">Refer a Friend</h2>
+        <p class="mb-4 text-gray-600">
+          Share your unique referral code with friends and get rewards!
+        </p>
+        <div class="flex items-center">
+          <input
+            type="text"
+            id="referral-code"
+            class="w-full p-2 border rounded-l-md bg-gray-50"
+            readonly
+          />
+          <button
+            id="copy-referral"
+            class="bg-yellow-400 text-black p-2 rounded-r-md hover:bg-yellow-500 transition-colors"
+          >
+            Copy
+          </button>
+        </div>
+        <p class="text-sm text-gray-500 mt-2">
+          Your friends can use this code at checkout for a discount.
+        </p>
+      </div>
+    </div>
+
+    <main class="container mx-auto py-6">
+      <div class="bg-green-600 text-white text-center p-4 mb-6 rounded-md">
+        <h1 class="text-3xl font-bold">
+          Welcome to Bhargavi Dairy & Veggie Farm
+        </h1>
+        <p class="text-lg">
+          Fresh Dairy and Vegetables Delivered to Your Doorstep!
+        </p>
+      </div>
+
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+      >
+        <div
+          class="product-card bg-white p-4 rounded-md border border-gray-200"
+        >
+          <img
+            src="https://images.pexels.com/photos/248412/pexels-photo-248412.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+            alt="Milk"
+            class="w-full h-48 object-cover rounded-md mb-4"
+          />
+          <h3 class="text-lg font-semibold">Fresh Cow Milk</h3>
+          <p class="text-gray-600">₹2.99 / liter</p>
+          <button
+            class="add-to-cart-btn w-full mt-2 py-2 rounded-md border text-sm font-medium hover:bg-yellow-500"
+            data-id="1"
+            data-name="Fresh Cow Milk"
+            data-price="2.99"
+          >
+            Add to Cart
+          </button>
+        </div>
+        <div
+          class="product-card bg-white p-4 rounded-md border border-gray-200"
+        >
+          <img
+            src="https://images.pexels.com/photos/8105106/pexels-photo-8105106.jpeg"
+            alt="Butter"
+            class="w-full h-48 object-cover rounded-md mb-4"
+          />
+          <h3 class="text-lg font-semibold">Homemade Butter</h3>
+          <p class="text-gray-600">₹4.50 / 200g</p>
+          <button
+            class="add-to-cart-btn w-full mt-2 py-2 rounded-md border text-sm font-medium hover:bg-yellow-500"
+            data-id="2"
+            data-name="Homemade Butter"
+            data-price="4.50"
+          >
+            Add to Cart
+          </button>
+        </div>
+        <div
+          class="product-card bg-white p-4 rounded-md border border-gray-200"
+        >
+          <img
+            src="https://images.pexels.com/photos/96616/pexels-photo-96616.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+            alt="Tomatoes"
+            class="w-full h-48 object-cover rounded-md mb-4"
+          />
+          <h3 class="text-lg font-semibold">Organic Tomatoes</h3>
+          <p class="text-gray-600">₹1.99 / kg</p>
+          <button
+            class="add-to-cart-btn w-full mt-2 py-2 rounded-md border text-sm font-medium hover:bg-yellow-500"
+            data-id="3"
+            data-name="Organic Tomatoes"
+            data-price="1.99"
+          >
+            Add to Cart
+          </button>
+        </div>
+        <div
+          class="product-card bg-white p-4 rounded-md border border-gray-200"
+        >
+          <img
+            src="https://images.pexels.com/photos/2325843/pexels-photo-2325843.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+            alt="Spinach"
+            class="w-full h-48 object-cover rounded-md mb-4"
+          />
+          <h3 class="text-lg font-semibold">Fresh Spinach</h3>
+          <p class="text-gray-600">₹0.99 / bunch</p>
+          <button
+            class="add-to-cart-btn w-full mt-2 py-2 rounded-md border text-sm font-medium hover:bg-yellow-500"
+            data-id="4"
+            data-name="Fresh Spinach"
+            data-price="0.99"
+          >
+            Add to Cart
+          </button>
+        </div>
+        <div
+          class="product-card bg-white p-4 rounded-md border border-gray-200"
+        >
+          <img
+            src="https://images.pexels.com/photos/6660243/pexels-photo-6660243.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+            alt="Cheese"
+            class="w-full h-48 object-cover rounded-md mb-4"
+          />
+          <h3 class="text-lg font-semibold">Cheddar Cheese</h3>
+          <p class="text-gray-600">₹5.99 / 250g</p>
+          <button
+            class="add-to-cart-btn w-full mt-2 py-2 rounded-md border text-sm font-medium hover:bg-yellow-500"
+            data-id="5"
+            data-name="Cheddar Cheese"
+            data-price="5.99"
+          >
+            Add to Cart
+          </button>
+        </div>
+        <div
+          class="product-card bg-white p-4 rounded-md border border-gray-200"
+        >
+          <img
+            src="https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
+            alt="Carrots"
+            class="w-full h-48 object-cover rounded-md mb-4"
+          />
+          <h3 class="text-lg font-semibold">Organic Carrots</h3>
+          <p class="text-gray-600">₹1.49 / kg</p>
+          <button
+            class="add-to-cart-btn w-full mt-2 py-2 rounded-md border text-sm font-medium hover:bg-yellow-500"
+            data-id="6"
+            data-name="Organic Carrots"
+            data-price="1.49"
+          >
+            Add to Cart
+          </button>
+        </div>
+        <div
+          class="product-card bg-white p-4 rounded-md border border-gray-200"
+        >
+          <img
+            src="https://images.pexels.com/photos/1435706/pexels-photo-1435706.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+            alt="Fresh Milk"
+            class="w-full h-48 object-cover rounded-md mb-4"
+          />
+          <h3 class="text-lg font-semibold">Fresh Milk</h3>
+          <p class="text-gray-600">₹2.50 / liter</p>
+          <button
+            class="add-to-cart-btn w-full mt-2 py-2 rounded-md border text-sm font-medium hover:bg-yellow-500"
+            data-id="7"
+            data-name="Fresh Milk"
+            data-price="2.50"
+          >
+            Add to Cart
+          </button>
+        </div>
+        <div
+          class="product-card bg-white p-4 rounded-md border border-gray-200"
+        >
+          <img
+            src="https://media.istockphoto.com/id/1334229086/photo/quark-or-cream-cheese-in-plastic-box-with-spoon-on-black-backround-with-fruits-healthy.webp?a=1&b=1&s=612x612&w=0&k=20&c=GuIUoyUhrwfqBhWKLxToQrus__ABdR35HyXZQ6YRJcY="
+            alt="Natural Curd"
+            class="w-full h-48 object-cover rounded-md mb-4"
+          />
+          <h3 class="text-lg font-semibold">Natural Curd</h3>
+          <p class="text-gray-600">₹1.00 / 500g</p>
+          <button
+            class="add-to-cart-btn w-full mt-2 py-2 rounded-md border text-sm font-medium hover:bg-yellow-500"
+            data-id="8"
+            data-name="Natural Curd"
+            data-price="1.00"
+          >
+            Add to Cart
+          </button>
+        </div>
+        <div
+          class="product-card bg-white p-4 rounded-md border border-gray-200"
+        >
+          <img
+            src="https://cdn.pixabay.com/photo/2015/03/30/19/23/green-onion-699943_1280.jpg"
+            alt="Spring Onions"
+            class="w-full h-48 object-cover rounded-md mb-4"
+          />
+          <h3 class="text-lg font-semibold">Spring Onions</h3>
+          <p class="text-gray-600">₹1.99 / kg</p>
+          <button
+            class="add-to-cart-btn w-full mt-2 py-2 rounded-md border text-sm font-medium hover:bg-yellow-500"
+            data-id="9"
+            data-name="Spring Onions"
+            data-price="1.99"
+          >
+            Add to Cart
+          </button>
+        </div>
+        <div
+          class="product-card bg-white p-4 rounded-md border border-gray-200"
+        >
+          <img
+            src="https://cdn.pixabay.com/photo/2016/09/28/14/09/potato-1700583_1280.jpg"
+            alt="Organic Potatoes"
+            class="w-full h-48 object-cover rounded-md mb-4"
+          />
+          <h3 class="text-lg font-semibold">Organic Potatoes</h3>
+          <p class="text-gray-600">₹0.89 / kg</p>
+          <button
+            class="add-to-cart-btn w-full mt-2 py-2 rounded-md border text-sm font-medium hover:bg-yellow-500"
+            data-id="10"
+            data-name="Organic Potatoes"
+            data-price="0.89"
+          >
+            Add to Cart
+          </button>
+        </div>
+        <div
+          class="product-card bg-white p-4 rounded-md border border-gray-200"
+        >
+          <img
+            src="https://cdn.pixabay.com/photo/2012/11/07/18/08/onion-65296_1280.jpg"
+            alt="Red Onions"
+            class="w-full h-48 object-cover rounded-md mb-4"
+          />
+          <h3 class="text-lg font-semibold">Red Onions</h3>
+          <p class="text-gray-600">₹1.29 / kg</p>
+          <button
+            class="add-to-cart-btn w-full mt-2 py-2 rounded-md border text-sm font-medium hover:bg-yellow-500"
+            data-id="11"
+            data-name="Red Onions"
+            data-price="1.29"
+          >
+            Add to Cart
+          </button>
+        </div>
+        <div
+          class="product-card bg-white p-4 rounded-md border border-gray-200"
+        >
+          <img
+            src="https://cdn.pixabay.com/photo/2019/05/06/01/42/green-4182079_1280.jpg"
+            alt="Green Cucumbers"
+            class="w-full h-48 object-cover rounded-md mb-4"
+          />
+          <h3 class="text-lg font-semibold">Green Cucumbers</h3>
+          <p class="text-gray-600">₹0.79 / piece</p>
+          <button
+            class="add-to-cart-btn w-full mt-2 py-2 rounded-md border text-sm font-medium hover:bg-yellow-500"
+            data-id="12"
+            data-name="Green Cucumbers"
+            data-price="0.79"
+          >
+            Add to Cart
+          </button>
+        </div>
+        <div
+          class="product-card bg-white p-4 rounded-md border border-gray-200"
+        >
+          <img
+            src="https://cdn.pixabay.com/photo/2013/11/20/23/02/cucumber-214264_1280.jpg"
+            alt="Fresh Cucumbers"
+            class="w-full h-48 object-cover rounded-md mb-4"
+          />
+          <h3 class="text-lg font-semibold">Fresh Cucumbers</h3>
+          <p class="text-gray-600">₹0.79 / piece</p>
+          <button
+            class="add-to-cart-btn w-full mt-2 py-2 rounded-md border text-sm font-medium hover:bg-yellow-500"
+            data-id="13"
+            data-name="Fresh Cucumbers"
+            data-price="0.79"
+          >
+            Add to Cart
+          </button>
+        </div>
+        <div
+          class="product-card bg-white p-4 rounded-md border border-gray-200"
+        >
+          <img
+            src="https://cdn.pixabay.com/photo/2018/12/07/01/53/fruit-3860991_1280.jpg"
+            alt="Apples"
+            class="w-full h-48 object-cover rounded-md mb-4"
+          />
+          <h3 class="text-lg font-semibold">Apples</h3>
+          <p class="text-gray-600">₹2.99 / kg</p>
+          <button
+            class="add-to-cart-btn w-full mt-2 py-2 rounded-md border text-sm font-medium hover:bg-yellow-500"
+            data-id="14"
+            data-name="Apples"
+            data-price="2.99"
+          >
+            Add to Cart
+          </button>
+        </div>
+        <div
+          class="product-card bg-white p-4 rounded-md border border-gray-200"
+        >
+          <img
+            src="https://cdn.pixabay.com/photo/2020/04/01/18/27/yellow-4992183_1280.jpg"
+            alt="Sweet Mangoes"
+            class="w-full h-48 object-cover rounded-md mb-4"
+          />
+          <h3 class="text-lg font-semibold">Sweet Mangoes</h3>
+          <p class="text-gray-600">₹3.49 / kg</p>
+          <button
+            class="add-to-cart-btn w-full mt-2 py-2 rounded-md border text-sm font-medium hover:bg-yellow-500"
+            data-id="15"
+            data-name="Sweet Mangoes"
+            data-price="3.49"
+          >
+            Add to Cart
+          </button>
+        </div>
+        <div
+          class="product-card bg-white p-4 rounded-md border border-gray-200"
+        >
+          <img
+            src="https://cdn.pixabay.com/photo/2023/03/03/19/38/banana-7828351_1280.jpg"
+            alt="Ripe Bananas"
+            class="w-full h-48 object-cover rounded-md mb-4"
+          />
+          <h3 class="text-lg font-semibold">Ripe Bananas</h3>
+          <p class="text-gray-600">₹0.59 / dozen</p>
+          <button
+            class="add-to-cart-btn w-full mt-2 py-2 rounded-md border text-sm font-medium hover:bg-yellow-500"
+            data-id="16"
+            data-name="Ripe Bananas"
+            data-price="0.59"
+          >
+            Add to Cart
+          </button>
+        </div>
+        <div
+          class="product-card bg-white p-4 rounded-md border border-gray-200"
+        >
+          <img
+            src="https://cdn.pixabay.com/photo/2017/08/06/17/00/eat-2594193_1280.jpg"
+            alt="Juicy Grapes"
+            class="w-full h-48 object-cover rounded-md mb-4"
+          />
+          <h3 class="text-lg font-semibold">Juicy Grapes</h3>
+          <p class="text-gray-600">₹2.79 / kg</p>
+          <button
+            class="add-to-cart-btn w-full mt-2 py-2 rounded-md border text-sm font-medium hover:bg-yellow-500"
+            data-id="17"
+            data-name="Juicy Grapes"
+            data-price="2.79"
+          >
+            Add to Cart
+          </button>
+        </div>
+        <div
+          class="product-card bg-white p-4 rounded-md border border-gray-200"
+        >
+          <img
+            src="https://cdn.pixabay.com/photo/2017/08/22/17/55/grape-2669939_1280.jpg"
+            alt="Grapes"
+            class="w-full h-48 object-cover rounded-md mb-4"
+          />
+          <h3 class="text-lg font-semibold">Grapes</h3>
+          <p class="text-gray-600">₹2.79 / kg</p>
+          <button
+            class="add-to-cart-btn w-full mt-2 py-2 rounded-md border text-sm font-medium hover:bg-yellow-500"
+            data-id="18"
+            data-name="Grapes"
+            data-price="2.79"
+          >
+            Add to Cart
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-6">
+      <div class="container mx-auto text-center">
+        <div class="flex justify-center space-x-6 mb-4">
+          <a href="#" class="hover:underline">About Us</a>
+          <a href="#" class="hover:underline">Contact</a>
+          <a href="#" class="hover:underline">Terms & Conditions</a>
+          <a href="#" class="hover:underline">Privacy Policy</a>
+        </div>
+        <p>© 2025 Bhargavi Dairy & Veggie Farm. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      let user = JSON.parse(localStorage.getItem("user")) || null;
+
+      function updateCartCount() {
+        const cartCountElement = document.getElementById("cart-count");
+        if (cartCountElement) {
+          const cartCount = cart.reduce(
+            (total, item) => total + item.quantity,
+            0
+          );
+          cartCountElement.textContent = cartCount;
+        } else {
+          console.error("Cart count element not found");
+        }
+      }
+
+      function addToCart(id, name, price) {
+        console.log(`Adding to cart: ${name}, ID: ${id}`);
+        const existingItem = cart.find((item) => item.id === id);
+        if (existingItem) {
+          existingItem.quantity += 1;
+        } else {
+          cart.push({ id, name, price: parseFloat(price), quantity: 1 });
+        }
+        localStorage.setItem("cart", JSON.stringify(cart));
+        updateCartCount();
+        alert(`${name} added to cart!`);
+      }
+
+      function filterProducts() {
+        const searchInputElement = document.getElementById("search-input");
+        if (!searchInputElement) {
+          console.error("Search input element not found");
+          return;
+        }
+        const searchInput = searchInputElement.value.toLowerCase();
+        console.log("Search Input:", searchInput);
+        const productCards = document.querySelectorAll(".product-card");
+        console.log("Product Cards Found:", productCards.length);
+
+        if (productCards.length === 0) {
+          console.error("No product cards found");
+          return;
+        }
+
+        productCards.forEach((card) => {
+          const productNameElement = card.querySelector("h3");
+          if (!productNameElement) {
+            console.error("Product name element not found in card:", card);
+            return;
+          }
+          const productName = productNameElement.textContent.toLowerCase();
+          console.log(
+            "Product Name:",
+            productName,
+            "Matches:",
+            productName.includes(searchInput)
+          );
+          card.style.display = productName.includes(searchInput)
+            ? "block"
+            : "none";
+        });
+      }
+
+      function generateReferralCode() {
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        let code = "";
+        for (let i = 0; i < 8; i++) {
+          code += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return code;
+      }
+
+      function updateAccountUI() {
+        const accountLink = document.getElementById("account-link");
+        const referralSection = document.getElementById("referral-section");
+        const referralCodeInput = document.getElementById("referral-code");
+
+        if (!accountLink || !referralSection || !referralCodeInput) {
+          console.error("Account UI elements not found");
+          return;
+        }
+
+        if (user) {
+          accountLink.textContent = `Hi, ${user.email.split("@")[0]} (Logout)`;
+          accountLink.href = "#";
+          accountLink.onclick = logout;
+          referralSection.classList.remove("hidden");
+          const referralCode = user.referralCode || generateReferralCode();
+          user.referralCode = referralCode;
+          localStorage.setItem("user", JSON.stringify(user));
+          referralCodeInput.value = referralCode;
+        } else {
+          accountLink.textContent = "Account";
+          accountLink.onclick = showLoginModal;
+          referralSection.classList.add("hidden");
+        }
+      }
+
+      function showLoginModal() {
+        const loginModal = document.getElementById("login-modal");
+        if (loginModal) {
+          loginModal.style.display = "flex";
+          document.getElementById("login-error")?.classList.add("hidden");
+        } else {
+          console.error("Login modal not found");
+        }
+        return false;
+      }
+
+      function logout() {
+        user = null;
+        localStorage.removeItem("user");
+        updateAccountUI();
+        alert("Logged out successfully!");
+        return false;
+      }
+
+      document.getElementById("login-form")?.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const email = document.getElementById("email")?.value;
+        const password = document.getElementById("password")?.value;
+        const loginError = document.getElementById("login-error");
+
+        if (!email || !password || !loginError) {
+          console.error("Login form elements not found");
+          alert("Login form error. Check console.");
+          return;
+        }
+
+        // Dummy validation
+        if (email === "user@example.com" && password === "password123") {
+          user = { email };
+          localStorage.setItem("user", JSON.stringify(user));
+          document.getElementById("login-modal").style.display = "none";
+          updateAccountUI();
+          alert("Logged in successfully!");
+        } else {
+          loginError.classList.remove("hidden");
+        }
+      });
+
+      document.getElementById("close-modal")?.addEventListener("click", () => {
+        const loginModal = document.getElementById("login-modal");
+        if (loginModal) {
+          loginModal.style.display = "none";
+        }
+      });
+
+      document
+        .getElementById("copy-referral")
+        ?.addEventListener("click", () => {
+          const referralCodeInput = document.getElementById("referral-code");
+          if (referralCodeInput) {
+            referralCodeInput.select();
+            document.execCommand("copy");
+            alert("Referral code copied to clipboard!");
+          } else {
+            console.error("Referral code input not found");
+          }
+        });
+
+      document
+        .getElementById("help-desk-link")
+        ?.addEventListener("click", (e) => {
+          e.preventDefault();
+          openChatbot();
+        });
+
+      // Initialize Add to Cart buttons
+      function initializeCartButtons() {
+        const buttons = document.querySelectorAll(".add-to-cart-btn");
+        console.log("Initializing cart buttons:", buttons.length);
+        buttons.forEach((button) => {
+          // Remove existing listeners to prevent duplicates
+          button.removeEventListener("click", handleCartClick);
+          // Add single listener
+          button.addEventListener("click", handleCartClick);
+        });
+      }
+
+      function handleCartClick(e) {
+        const button = e.currentTarget;
+        const id = button.getAttribute("data-id");
+        const name = button.getAttribute("data-name");
+        const price = button.getAttribute("data-price");
+        console.log(`Button clicked: ${name}, ID: ${id}`);
+        addToCart(id, name, price);
+      }
+
+      // Call initialization
+      initializeCartButtons();
+
+      const searchInput = document.getElementById("search-input");
+      if (searchInput) {
+        searchInput.addEventListener("input", filterProducts);
+      } else {
+        console.error("Search input not found on page load");
+      }
+
+      document
+        .getElementById("account-link")
+        ?.addEventListener("click", showLoginModal);
+      function initChatbot() {
+        const chatContainer = document.createElement("div");
+        chatContainer.id = "chatbot";
+        chatContainer.style.cssText = `
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 300px;
+  max-height: 400px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  display: none;
+  flex-direction: column;
+  z-index: 100;
+`;
+        chatContainer.innerHTML = `
+    <div style="background: #4b5563; color: white; padding: 10px; border-radius: 8px 8px 0 0; display: flex; justify-content: space-between;">
+      <span>Chinnu's Farm Support</span>
+      <button id="close-chat" style="background: none; color: white; border: none; cursor: pointer;">✖</button>
+    </div>
+    <div id="chat-messages" style="flex: 1; padding: 10px; overflow-y: auto; background: #f9fafb;"></div>
+    <div style="padding: 10px; border-top: 1px solid #e5e7eb;">
+      <input id="chat-input" type="text" placeholder="Type your question..." style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px;">
+    </div>
+  `;
+        document.body.appendChild(chatContainer);
+
+        const responses = {
+          hi: "Hello! Welcome to  Farm Support. How can I help you?",
+          delivery:
+            "We deliver fresh dairy and veggies within 24 hours. Enter your pincode at checkout to confirm availability.",
+          products:
+            "We offer fresh milk, butter, cheese, and organic vegetables. Check our homepage for the full list!",
+          default:
+            "Sorry, I didn't understand. Try asking about delivery, products, or contact us!",
+        };
+
+        function addMessage(text, isUser = false) {
+          const messageDiv = document.createElement("div");
+          messageDiv.style.cssText = `
+      margin: 5px 0;
+      padding: 8px;
+      border-radius: 4px;
+      background: ${isUser ? "#fef3c7" : "#e5e7eb"};
+      align-self: ${isUser ? "flex-end" : "flex-start"};
+      max-width: 80%;
+    `;
+          messageDiv.textContent = text;
+          document.getElementById("chat-messages").appendChild(messageDiv);
+          document.getElementById("chat-messages").scrollTop =
+            document.getElementById("chat-messages").scrollHeight;
+        }
+
+        document
+          .getElementById("chat-input")
+          .addEventListener("keypress", (e) => {
+            if (e.key === "Enter" && e.target.value.trim()) {
+              const userMessage = e.target.value.trim().toLowerCase();
+              addMessage(e.target.value, true);
+              const response = Object.keys(responses).find((key) =>
+                userMessage.includes(key)
+              )
+                ? responses[
+                    Object.keys(responses).find((key) =>
+                      userMessage.includes(key)
+                    )
+                  ]
+                : responses["default"];
+              setTimeout(() => addMessage(response), 500);
+              e.target.value = "";
+            }
+          });
+
+        document.getElementById("close-chat").addEventListener("click", () => {
+          document.getElementById("chatbot").style.display = "none";
+        });
+      }
+
+      function openChatbot() {
+        const chatbot = document.getElementById("chatbot");
+        if (chatbot) {
+          chatbot.style.display = "flex";
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", initChatbot);
+
+      updateCartCount();
+      updateAccountUI();
+    </script>
+  </body>
+</html>
