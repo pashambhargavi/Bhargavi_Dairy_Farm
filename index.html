@@ -62,15 +62,26 @@
         max-width: 400px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       }
+      .logo-img {
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #f0c14b; /* Optional: yellow border for highlight */
+        background: white; /* Optional: white background */
+      }
     </style>
   </head>
   <body class="bg-gray-100">
     <nav class="bg-gray-900 text-white p-3">
       <div class="container mx-auto flex items-center justify-between">
-        <div class="text-2xl font-bold">
-          <a href="/index.html">Bhargavi Farm</a>
-          <!-- <a href="/cart.html">Click Here</a> -->
+        <div class="flex items-center space-x-3">
+          <img src="logo.png" alt="Logo" class="logo-img" />
+          <span class="text-2xl font-bold">
+            <a href="/index.html">Bhargavi Farm</a>
+          </span>
         </div>
+
         <div class="nav-search mx-4">
           <div class="flex">
             <input
@@ -102,7 +113,7 @@
         </div>
         <div class="flex items-center space-x-4">
           <!-- <a href="#" class="hover:underline">Account</a> -->
-           <select
+          <select
             id="language-select"
             class="bg-gray-700 text-white p-2 rounded-md text-sm"
           >
@@ -151,10 +162,15 @@
 
     <div id="login-modal" class="modal">
       <div class="modal-content">
-        <h2 class="text-xl font-bold mb-4" data-i18n="login_title">Login to Your Account</h2>
+        <h2 class="text-xl font-bold mb-4" data-i18n="login_title">
+          Login to Your Account
+        </h2>
         <form id="login-form">
           <div class="mb-4">
-            <label for="email" class="block text-sm font-medium text-gray-700" data-i18n="email_label"
+            <label
+              for="email"
+              class="block text-sm font-medium text-gray-700"
+              data-i18n="email_label"
               >Email</label
             >
             <input
@@ -167,7 +183,8 @@
           <div class="mb-4">
             <label
               for="password"
-              class="block text-sm font-medium text-gray-700" data-i18n="password_label"
+              class="block text-sm font-medium text-gray-700"
+              data-i18n="password_label"
               >Password</label
             >
             <input
@@ -179,19 +196,25 @@
           </div>
           <button
             type="submit"
-            class="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition-colors" data-i18n="sign_in"
+            class="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition-colors"
+            data-i18n="sign_in"
           >
             Sign In
           </button>
           <button
             type="button"
             id="close-modal"
-            class="w-full mt-2 bg-gray-300 text-gray-700 py-2 rounded-md hover:bg-gray-400 transition-colors" data-i18n="cancel"
+            class="w-full mt-2 bg-gray-300 text-gray-700 py-2 rounded-md hover:bg-gray-400 transition-colors"
+            data-i18n="cancel"
           >
             Cancel
           </button>
         </form>
-        <p id="login-error" class="text-red-500 mt-2 hidden" data-i18n="login_error">
+        <p
+          id="login-error"
+          class="text-red-500 mt-2 hidden"
+          data-i18n="login_error"
+        >
           Invalid email or password.
         </p>
       </div>
@@ -199,7 +222,9 @@
     <!-- Referral Section -->
     <div id="referral-section" class="container mx-auto py-4 hidden">
       <div class="bg-white p-6 rounded-md border border-gray-200 shadow-sm">
-        <h2 class="text-xl font-bold mb-4" data-i18n="referral_title">Refer a Friend</h2>
+        <h2 class="text-xl font-bold mb-4" data-i18n="referral_title">
+          Refer a Friend
+        </h2>
         <p class="mb-4 text-gray-600" data-i18n="referral_description">
           Share your unique referral code with friends and get rewards!
         </p>
@@ -212,7 +237,8 @@
           />
           <button
             id="copy-referral"
-            class="bg-yellow-400 text-black p-2 rounded-r-md hover:bg-yellow-500 transition-colors" data-i18n="copy"
+            class="bg-yellow-400 text-black p-2 rounded-r-md hover:bg-yellow-500 transition-colors"
+            data-i18n="copy"
           >
             Copy
           </button>
@@ -244,8 +270,12 @@
             alt="Milk"
             class="w-full h-48 object-cover rounded-md mb-4"
           />
-          <h3 class="text-lg font-semibold" data-i18n="product_fresh_cow_milk">Fresh Cow Milk</h3>
-          <p class="text-gray-600" data-i18n="price_fresh_cow_milk">₹2.99 / liter</p>
+          <h3 class="text-lg font-semibold" data-i18n="product_fresh_cow_milk">
+            Fresh Cow Milk
+          </h3>
+          <p class="text-gray-600" data-i18n="price_fresh_cow_milk">
+            ₹2.99 / liter
+          </p>
           <button
             class="add-to-cart-btn w-full mt-2 py-2 rounded-md border text-sm font-medium hover:bg-yellow-500"
             data-id="1"
@@ -264,8 +294,12 @@
             alt="Butter"
             class="w-full h-48 object-cover rounded-md mb-4"
           />
-          <h3 class="text-lg font-semibold" data-i18n="product_homemade_butter">Homemade Butter</h3>
-          <p class="text-gray-600" data-i18n="price_homemade_butter">₹4.50 / 200g</p>
+          <h3 class="text-lg font-semibold" data-i18n="product_homemade_butter">
+            Homemade Butter
+          </h3>
+          <p class="text-gray-600" data-i18n="price_homemade_butter">
+            ₹4.50 / 200g
+          </p>
           <button
             class="add-to-cart-btn w-full mt-2 py-2 rounded-md border text-sm font-medium hover:bg-yellow-500"
             data-id="2"
@@ -284,8 +318,15 @@
             alt="Tomatoes"
             class="w-full h-48 object-cover rounded-md mb-4"
           />
-          <h3 class="text-lg font-semibold" data-i18n="product_organic_tomatoes">Organic Tomatoes</h3>
-          <p class="text-gray-600" data-i18n="price_organic_tomatoes">₹1.99 / kg</p>
+          <h3
+            class="text-lg font-semibold"
+            data-i18n="product_organic_tomatoes"
+          >
+            Organic Tomatoes
+          </h3>
+          <p class="text-gray-600" data-i18n="price_organic_tomatoes">
+            ₹1.99 / kg
+          </p>
           <button
             class="add-to-cart-btn w-full mt-2 py-2 rounded-md border text-sm font-medium hover:bg-yellow-500"
             data-id="3"
@@ -304,8 +345,12 @@
             alt="Spinach"
             class="w-full h-48 object-cover rounded-md mb-4"
           />
-          <h3 class="text-lg font-semibold" data-i18n="product_fresh_spinach">Fresh Spinach</h3>
-          <p class="text-gray-600" data-i18n="price_fresh_spinach">₹0.99 / bunch</p>
+          <h3 class="text-lg font-semibold" data-i18n="product_fresh_spinach">
+            Fresh Spinach
+          </h3>
+          <p class="text-gray-600" data-i18n="price_fresh_spinach">
+            ₹0.99 / bunch
+          </p>
           <button
             class="add-to-cart-btn w-full mt-2 py-2 rounded-md border text-sm font-medium hover:bg-yellow-500"
             data-id="4"
@@ -324,8 +369,12 @@
             alt="Cheese"
             class="w-full h-48 object-cover rounded-md mb-4"
           />
-          <h3 class="text-lg font-semibold" data-i18n="product_cheddar_cheese">Cheddar Cheese</h3>
-          <p class="text-gray-600" data-i18n="price_cheddar_cheese">₹5.99 / 250g</p>
+          <h3 class="text-lg font-semibold" data-i18n="product_cheddar_cheese">
+            Cheddar Cheese
+          </h3>
+          <p class="text-gray-600" data-i18n="price_cheddar_cheese">
+            ₹5.99 / 250g
+          </p>
           <button
             class="add-to-cart-btn w-full mt-2 py-2 rounded-md border text-sm font-medium hover:bg-yellow-500"
             data-id="5"
@@ -344,8 +393,12 @@
             alt="Carrots"
             class="w-full h-48 object-cover rounded-md mb-4"
           />
-          <h3 class="text-lg font-semibold" data-i18n="product_organic_carrots">Organic Carrots</h3>
-          <p class="text-gray-600" data-i18n="price_organic_carrots">₹1.49 / kg</p>
+          <h3 class="text-lg font-semibold" data-i18n="product_organic_carrots">
+            Organic Carrots
+          </h3>
+          <p class="text-gray-600" data-i18n="price_organic_carrots">
+            ₹1.49 / kg
+          </p>
           <button
             class="add-to-cart-btn w-full mt-2 py-2 rounded-md border text-sm font-medium hover:bg-yellow-500"
             data-id="6"
@@ -364,8 +417,12 @@
             alt="Fresh Milk"
             class="w-full h-48 object-cover rounded-md mb-4"
           />
-          <h3 class="text-lg font-semibold" data-i18n="product_fresh_milk">Fresh Milk</h3>
-          <p class="text-gray-600" data-i18n="price_fresh_milk">₹2.50 / liter</p>
+          <h3 class="text-lg font-semibold" data-i18n="product_fresh_milk">
+            Fresh Milk
+          </h3>
+          <p class="text-gray-600" data-i18n="price_fresh_milk">
+            ₹2.50 / liter
+          </p>
           <button
             class="add-to-cart-btn w-full mt-2 py-2 rounded-md border text-sm font-medium hover:bg-yellow-500"
             data-id="7"
@@ -384,8 +441,12 @@
             alt="Natural Curd"
             class="w-full h-48 object-cover rounded-md mb-4"
           />
-          <h3 class="text-lg font-semibold" data-i18n="product_natural_curd">Natural Curd</h3>
-          <p class="text-gray-600" data-i18n="price_natural_curd">₹1.00 / 500g</p>
+          <h3 class="text-lg font-semibold" data-i18n="product_natural_curd">
+            Natural Curd
+          </h3>
+          <p class="text-gray-600" data-i18n="price_natural_curd">
+            ₹1.00 / 500g
+          </p>
           <button
             class="add-to-cart-btn w-full mt-2 py-2 rounded-md border text-sm font-medium hover:bg-yellow-500"
             data-id="8"
@@ -404,8 +465,12 @@
             alt="Spring Onions"
             class="w-full h-48 object-cover rounded-md mb-4"
           />
-          <h3 class="text-lg font-semibold" data-i18n="product_spring_onions">Spring Onions</h3>
-          <p class="text-gray-600" data-i18n="price_spring_onions">₹1.99 / kg</p>
+          <h3 class="text-lg font-semibold" data-i18n="product_spring_onions">
+            Spring Onions
+          </h3>
+          <p class="text-gray-600" data-i18n="price_spring_onions">
+            ₹1.99 / kg
+          </p>
           <button
             class="add-to-cart-btn w-full mt-2 py-2 rounded-md border text-sm font-medium hover:bg-yellow-500"
             data-id="9"
@@ -424,8 +489,15 @@
             alt="Organic Potatoes"
             class="w-full h-48 object-cover rounded-md mb-4"
           />
-          <h3 class="text-lg font-semibold" data-i18n="product_organic_potatoes">Organic Potatoes</h3>
-          <p class="text-gray-600" data-i18n="price_organic_potatoes">₹0.89 / kg</p>
+          <h3
+            class="text-lg font-semibold"
+            data-i18n="product_organic_potatoes"
+          >
+            Organic Potatoes
+          </h3>
+          <p class="text-gray-600" data-i18n="price_organic_potatoes">
+            ₹0.89 / kg
+          </p>
           <button
             class="add-to-cart-btn w-full mt-2 py-2 rounded-md border text-sm font-medium hover:bg-yellow-500"
             data-id="10"
@@ -444,7 +516,9 @@
             alt="Red Onions"
             class="w-full h-48 object-cover rounded-md mb-4"
           />
-          <h3 class="text-lg font-semibold" data-i18n="product_red_onions">Red Onions</h3>
+          <h3 class="text-lg font-semibold" data-i18n="product_red_onions">
+            Red Onions
+          </h3>
           <p class="text-gray-600" data-i18n="price_red_onions">₹1.29 / kg</p>
           <button
             class="add-to-cart-btn w-full mt-2 py-2 rounded-md border text-sm font-medium hover:bg-yellow-500"
@@ -464,8 +538,12 @@
             alt="Green Cucumbers"
             class="w-full h-48 object-cover rounded-md mb-4"
           />
-          <h3 class="text-lg font-semibold" data-i18n="product_green_cucumbers">Green Cucumbers</h3>
-          <p class="text-gray-600" data-i18n="price_green_cucumbers">₹0.79 / piece</p>
+          <h3 class="text-lg font-semibold" data-i18n="product_green_cucumbers">
+            Green Cucumbers
+          </h3>
+          <p class="text-gray-600" data-i18n="price_green_cucumbers">
+            ₹0.79 / piece
+          </p>
           <button
             class="add-to-cart-btn w-full mt-2 py-2 rounded-md border text-sm font-medium hover:bg-yellow-500"
             data-id="12"
@@ -484,8 +562,12 @@
             alt="Fresh Cucumbers"
             class="w-full h-48 object-cover rounded-md mb-4"
           />
-          <h3 class="text-lg font-semibold" data-i18n="product_fresh_cucumbers">Fresh Cucumbers</h3>
-          <p class="text-gray-600" data-i18n="price_fresh_cucumbers">₹0.79 / piece</p>
+          <h3 class="text-lg font-semibold" data-i18n="product_fresh_cucumbers">
+            Fresh Cucumbers
+          </h3>
+          <p class="text-gray-600" data-i18n="price_fresh_cucumbers">
+            ₹0.79 / piece
+          </p>
           <button
             class="add-to-cart-btn w-full mt-2 py-2 rounded-md border text-sm font-medium hover:bg-yellow-500"
             data-id="13"
@@ -504,7 +586,9 @@
             alt="Apples"
             class="w-full h-48 object-cover rounded-md mb-4"
           />
-          <h3 class="text-lg font-semibold" data-i18n="product_apples">Apples</h3>
+          <h3 class="text-lg font-semibold" data-i18n="product_apples">
+            Apples
+          </h3>
           <p class="text-gray-600" data-i18n="price_apples">₹2.99 / kg</p>
           <button
             class="add-to-cart-btn w-full mt-2 py-2 rounded-md border text-sm font-medium hover:bg-yellow-500"
@@ -524,8 +608,12 @@
             alt="Sweet Mangoes"
             class="w-full h-48 object-cover rounded-md mb-4"
           />
-          <h3 class="text-lg font-semibold" data-i18n="product_sweet_mangoes">Sweet Mangoes</h3>
-          <p class="text-gray-600" data-i18n="price_sweet_mangoes">₹3.49 / kg</p>
+          <h3 class="text-lg font-semibold" data-i18n="product_sweet_mangoes">
+            Sweet Mangoes
+          </h3>
+          <p class="text-gray-600" data-i18n="price_sweet_mangoes">
+            ₹3.49 / kg
+          </p>
           <button
             class="add-to-cart-btn w-full mt-2 py-2 rounded-md border text-sm font-medium hover:bg-yellow-500"
             data-id="15"
@@ -544,8 +632,12 @@
             alt="Ripe Bananas"
             class="w-full h-48 object-cover rounded-md mb-4"
           />
-          <h3 class="text-lg font-semibold" data-i18n="product_ripe_bananas">Ripe Bananas</h3>
-          <p class="text-gray-600" data-i18n="price_ripe_bananas">₹0.59 / dozen</p>
+          <h3 class="text-lg font-semibold" data-i18n="product_ripe_bananas">
+            Ripe Bananas
+          </h3>
+          <p class="text-gray-600" data-i18n="price_ripe_bananas">
+            ₹0.59 / dozen
+          </p>
           <button
             class="add-to-cart-btn w-full mt-2 py-2 rounded-md border text-sm font-medium hover:bg-yellow-500"
             data-id="16"
@@ -564,7 +656,9 @@
             alt="Juicy Grapes"
             class="w-full h-48 object-cover rounded-md mb-4"
           />
-          <h3 class="text-lg font-semibold" data-i18n="product_juicy_grapes">Juicy Grapes</h3>
+          <h3 class="text-lg font-semibold" data-i18n="product_juicy_grapes">
+            Juicy Grapes
+          </h3>
           <p class="text-gray-600" data-i18n="price_juicy_grapes">₹2.79 / kg</p>
           <button
             class="add-to-cart-btn w-full mt-2 py-2 rounded-md border text-sm font-medium hover:bg-yellow-500"
@@ -584,7 +678,9 @@
             alt="Grapes"
             class="w-full h-48 object-cover rounded-md mb-4"
           />
-          <h3 class="text-lg font-semibold" data-i18n="product_grapes">Grapes</h3>
+          <h3 class="text-lg font-semibold" data-i18n="product_grapes">
+            Grapes
+          </h3>
           <p class="text-gray-600" data-i18n="price_grapes">₹2.79 / kg</p>
           <button
             class="add-to-cart-btn w-full mt-2 py-2 rounded-md border text-sm font-medium hover:bg-yellow-500"
@@ -604,15 +700,20 @@
         <div class="flex justify-center space-x-6 mb-4">
           <a href="#" class="hover:underline" data-i18n="about_us">About Us</a>
           <a href="#" class="hover:underline" data-i18n="contact">Contact</a>
-          <a href="#" class="hover:underline" data-i18n="terms_conditions">Terms & Conditions</a>
-          <a href="#" class="hover:underline" data-i18n="privacy_policy">Privacy Policy</a>
+          <a href="#" class="hover:underline" data-i18n="terms_conditions"
+            >Terms & Conditions</a
+          >
+          <a href="#" class="hover:underline" data-i18n="privacy_policy"
+            >Privacy Policy</a
+          >
         </div>
-        <p data-i18n="footer_copyright">© 2025 Bhargavi Dairy & Veggie Farm. All rights reserved.</p>
+        <p data-i18n="footer_copyright">
+          © 2025 Bhargavi Dairy & Veggie Farm. All rights reserved.
+        </p>
       </div>
     </footer>
 
     <script>
-
       let cart = JSON.parse(localStorage.getItem("cart")) || [];
       let user = JSON.parse(localStorage.getItem("user")) || null;
 
@@ -695,7 +796,6 @@
         const referralCodeInput = document.getElementById("referral-code");
         const lang = localStorage.getItem("language") || "en";
 
-
         if (!accountLink || !referralSection || !referralCodeInput) {
           console.error("Account UI elements not found");
           return;
@@ -744,7 +844,6 @@
         const password = document.getElementById("password")?.value;
         const loginError = document.getElementById("login-error");
         const lang = localStorage.getItem("language") || "en";
-
 
         if (!email || !password || !loginError) {
           console.error("Login form elements not found");
@@ -905,7 +1004,6 @@
           document.getElementById("chatbot").style.display = "none";
         });
         translatePage(localStorage.getItem("language") || "en");
-
       }
 
       function openChatbot() {
@@ -920,7 +1018,6 @@
       updateCartCount();
       updateAccountUI();
     </script>
-        <script src="script.js"></script>
-
+    <script src="script.js"></script>
   </body>
 </html>
