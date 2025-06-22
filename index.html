@@ -63,12 +63,15 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       }
       .logo-img {
-        height: 40px;
-        width: 40px;
         border-radius: 50%;
         object-fit: cover;
-        border: 2px solid #f0c14b; /* Optional: yellow border for highlight */
-        background: white; /* Optional: white background */
+        border: 2px solid #f0c14b;
+        background: white;
+        /* Remove fixed height/width if present */
+        height: auto;
+        width: auto;
+        max-width: 60px;
+        max-height: 60px;
       }
     </style>
   </head>
@@ -76,7 +79,11 @@
     <nav class="bg-gray-900 text-white p-3">
       <div class="container mx-auto flex items-center justify-between">
         <div class="flex items-center space-x-3">
-          <img src="logo.png" alt="Logo" class="logo-img" />
+          <img
+            src="logo.png"
+            alt="Logo"
+            class="logo-img h-10 w-10 sm:h-12 sm:w-12 md:h-16 md:w-16 lg:h-20 lg:w-20 transition-all duration-200"
+          />
           <span class="text-2xl font-bold">
             <a href="/index.html">Bhargavi Farm</a>
           </span>
