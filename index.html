@@ -7,96 +7,142 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
-      body {
-        font-family: "Arial", sans-serif;
+                body {
+                          font-family: "Arial", sans-serif;
+                        }
+                        @tailwind base;
+                        @tailwind components;
+                        @tailwind utilities;
+                        .product-card {
+                          transition: transform 0.2s;
+                        }
+                        .product-card:hover {
+                          transform: translateY(-5px);
+                          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                        }
+                        .nav-search {
+                          flex: 1;
+                          max-width: 600px;
+                          color: black;
+                        }
+                        .add-to-cart-btn {
+                          background-color: #f0c14b;
+                          border-color: #a88734 #9c7e31 #846a29;
+                        }
+                        .add-to-cart-btn:hover {
+                          background-color: #e0b038;
+                        }
+                        .cart-count {
+                          position: absolute;
+                          top: -10px;
+                          right: -10px;
+                          background-color: red;
+                          color: white;
+                          border-radius: 50%;
+                          padding: 2px 6px;
+                          font-size: 12px;
+                        }
+                        .modal {
+                          display: none;
+                          position: fixed;
+                          top: 0;
+                          left: 0;
+                          width: 100%;
+                          height: 100%;
+                          background-color: rgba(0, 0, 0, 0.5);
+                          z-index: 50;
+                          align-items: center;
+                          justify-content: center;
+                        }
+                        .modal-content {
+                          background-color: white;
+                          padding: 20px;
+                          border-radius: 8px;
+                          width: 90%;
+                          max-width: 400px;
+                          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                        }
+                        /* .logo-img {
+                          border-radius: 50%;
+                          object-fit: cover;
+                          border: 2px solid #f0c14b;
+                          background: white;
+                          /* Remove fixed height/width if present */
+                          /* height: auto;
+                          width: auto;
+                          max-width: 60px;
+                          max-height: 60px; */
+                        /* } */
+                        .logo-img {
+              border-radius: 50%;
+              object-fit: cover;
+              border: 2px solid #f0c14b;
+              background: white;
+              width: 40px;
+              height: 40px;
+              transition: width 0.2s, height 0.2s;
+            }
+            @media (min-width: 480px) {
+              .logo-img { width: 48px; height: 48px; }
+            }
+            @media (min-width: 768px) {
+              .logo-img { width: 64px; height: 64px; }
+            }
+            @media (min-width: 1024px) {
+              .logo-img { width: 80px; height: 80px; }
+            }
+            /* Slide-down animation for mobile menu */
+      #mobile-menu {
+        transition-property: transform, opacity;
+        transition-duration: 300ms;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
       }
-      @tailwind base;
-      @tailwind components;
-      @tailwind utilities;
-      .product-card {
-        transition: transform 0.2s;
+      #mobile-menu.open {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
       }
-      .product-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      #mobile-menu:not(.open) {
+        transform: -translate-y-full;
+        opacity: 0;
+        pointer-events: none;
       }
-      .nav-search {
-        flex: 1;
-        max-width: 600px;
-        color: black;
+      .slide-item {
+        opacity: 0;
+        transform: translateY(-20px);
+        transition: opacity 300ms, transform 300ms;
       }
-      .add-to-cart-btn {
-        background-color: #f0c14b;
-        border-color: #a88734 #9c7e31 #846a29;
+      #mobile-menu.open .slide-item {
+        opacity: 1;
+        transform: translateY(0);
       }
-      .add-to-cart-btn:hover {
-        background-color: #e0b038;
-      }
-      .cart-count {
-        position: absolute;
-        top: -10px;
-        right: -10px;
-        background-color: red;
-        color: white;
-        border-radius: 50%;
-        padding: 2px 6px;
-        font-size: 12px;
-      }
-      .modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 50;
-        align-items: center;
-        justify-content: center;
-      }
-      .modal-content {
-        background-color: white;
-        padding: 20px;
-        border-radius: 8px;
-        width: 90%;
-        max-width: 400px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      }
-      .logo-img {
-        border-radius: 50%;
-        object-fit: cover;
-        border: 2px solid #f0c14b;
-        background: white;
-        /* Remove fixed height/width if present */
-        height: auto;
-        width: auto;
-        max-width: 60px;
-        max-height: 60px;
-      }
+      #mobile-menu.open .slide-item:nth-child(1) { transition-delay: 0ms; }
+      #mobile-menu.open .slide-item:nth-child(2) { transition-delay: 80ms; }
+      #mobile-menu.open .slide-item:nth-child(3) { transition-delay: 160ms; }
+                        */
     </style>
   </head>
   <body class="bg-gray-100">
     <nav class="bg-gray-900 text-white p-3">
-      <div class="container mx-auto flex items-center justify-between">
-        <div class="flex items-center space-x-3">
-          <img
-            src="logo.png"
-            alt="Logo"
-            class="logo-img h-10 w-10 sm:h-12 sm:w-12 md:h-16 md:w-16 lg:h-20 lg:w-20 transition-all duration-200"
-          />
-          <span class="text-2xl font-bold">
+      <div
+        class="container mx-auto flex items-center justify-between flex-wrap"
+      >
+        <!-- Logo -->
+        <div class="flex items-center space-x-2 flex-shrink-0">
+          <img src="logo.png" alt="Logo" class="logo-img" />
+          <span class="text-xl sm:text-2xl font-bold">
             <a href="/index.html">Bhargavi Farm</a>
           </span>
         </div>
-
-        <div class="nav-search mx-4">
+        <!-- Search Bar -->
+        <div class="flex-1 mx-2 min-w-0">
           <div class="flex">
             <input
               type="text"
               id="search-input"
               data-i18n-placeholder="search_placeholder"
               placeholder="Search for dairy or vegetables..."
-              class="w-full p-2 rounded-l-md border border-gray-300 focus:outline-none"
+              class="w-full p-2 rounded-l-md border border-gray-300 focus:outline-none text-black"
             />
             <button
               class="bg-yellow-400 text-black p-2 rounded-r-md hover:bg-yellow-500"
@@ -106,20 +152,19 @@
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
               >
                 <path
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
                   d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                ></path>
+                />
               </svg>
             </button>
           </div>
         </div>
-        <div class="flex items-center space-x-4">
-          <!-- <a href="#" class="hover:underline">Account</a> -->
+        <!-- Language Selector -->
+        <div class="ml-2">
           <select
             id="language-select"
             class="bg-gray-700 text-white p-2 rounded-md text-sm"
@@ -128,6 +173,25 @@
             <option value="te">Telugu</option>
             <option value="hi">Hindi</option>
           </select>
+        </div>
+        <!-- Hamburger (Mobile Only) -->
+        <button id="nav-toggle" class="block md:hidden ml-2 focus:outline-none">
+          <svg
+            class="w-7 h-7"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+        </button>
+        <!-- Menu Items (Desktop) -->
+        <div id="nav-menu" class="hidden md:flex items-center space-x-4 ml-4">
           <a
             href="#"
             id="account-link"
@@ -151,7 +215,6 @@
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
             >
               <path
                 stroke-linecap="round"
@@ -165,8 +228,52 @@
           </a>
         </div>
       </div>
+      <!-- Mobile Slide Menu -->
+      <div
+        id="mobile-menu"
+        class="md:hidden fixed left-0 right-0 top-[64px] z-50 bg-gray-800 px-4 py-4 rounded-b-lg shadow-lg max-w-full w-full mx-auto transition-all duration-300 ease-in-out transform -translate-y-full opacity-0 pointer-events-none"
+      >
+        <div class="flex flex-col items-center space-y-3">
+          <a
+            href="#"
+            id="account-link-mobile"
+            class="block py-2 px-4 rounded hover:bg-gray-700 w-full text-center transition slide-item"
+            data-i18n="account"
+            style="transition-delay: 0ms"
+            >Account</a
+          >
+          <a
+            href="#"
+            id="help-desk-link-mobile"
+            class="block py-2 px-4 rounded hover:bg-gray-700 w-full text-center transition slide-item"
+            data-i18n="help_desk"
+            style="transition-delay: 80ms"
+            >Help Desk</a
+          >
+          <a
+            href="/cart.html"
+            class="block py-2 px-4 rounded hover:bg-gray-700 w-full text-center flex items-center justify-center relative transition slide-item"
+            style="transition-delay: 160ms"
+          >
+            <svg
+              class="w-6 h-6 mr-1"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+              ></path>
+            </svg>
+            <span data-i18n="cart">Cart</span>
+            <span id="cart-count-mobile" class="cart-count ml-2">0</span>
+          </a>
+        </div>
+      </div>
     </nav>
-
     <div id="login-modal" class="modal">
       <div class="modal-content">
         <h2 class="text-xl font-bold mb-4" data-i18n="login_title">
@@ -427,9 +534,7 @@
           <h3 class="text-lg font-semibold" data-i18n="product_fresh_milk">
             Fresh Milk
           </h3>
-          <p class="text-gray-600" data-i18n="price_fresh_milk">
-            ₹60 / liter
-          </p>
+          <p class="text-gray-600" data-i18n="price_fresh_milk">₹60 / liter</p>
           <button
             class="add-to-cart-btn w-full mt-2 py-2 rounded-md border text-sm font-medium hover:bg-yellow-500"
             data-id="7"
@@ -451,9 +556,7 @@
           <h3 class="text-lg font-semibold" data-i18n="product_natural_curd">
             Natural Curd
           </h3>
-          <p class="text-gray-600" data-i18n="price_natural_curd">
-            ₹60 / 500g
-          </p>
+          <p class="text-gray-600" data-i18n="price_natural_curd">₹60 / 500g</p>
           <button
             class="add-to-cart-btn w-full mt-2 py-2 rounded-md border text-sm font-medium hover:bg-yellow-500"
             data-id="8"
@@ -475,9 +578,7 @@
           <h3 class="text-lg font-semibold" data-i18n="product_spring_onions">
             Spring Onions
           </h3>
-          <p class="text-gray-600" data-i18n="price_spring_onions">
-            ₹80 / kg
-          </p>
+          <p class="text-gray-600" data-i18n="price_spring_onions">₹80 / kg</p>
           <button
             class="add-to-cart-btn w-full mt-2 py-2 rounded-md border text-sm font-medium hover:bg-yellow-500"
             data-id="9"
@@ -618,9 +719,7 @@
           <h3 class="text-lg font-semibold" data-i18n="product_sweet_mangoes">
             Sweet Mangoes
           </h3>
-          <p class="text-gray-600" data-i18n="price_sweet_mangoes">
-            ₹120 / kg
-          </p>
+          <p class="text-gray-600" data-i18n="price_sweet_mangoes">₹120 / kg</p>
           <button
             class="add-to-cart-btn w-full mt-2 py-2 rounded-md border text-sm font-medium hover:bg-yellow-500"
             data-id="15"
@@ -747,7 +846,6 @@
         }
         localStorage.setItem("cart", JSON.stringify(cart));
         updateCartCount();
-        const lang = localStorage.getItem("language") || "en";
 
         alert(`${name} added to cart!`);
       }
@@ -1024,7 +1122,51 @@
 
       updateCartCount();
       updateAccountUI();
+      document.getElementById("nav-toggle").onclick = function () {
+        const menu = document.getElementById("mobile-menu");
+        menu.classList.toggle("open");
+      };
+      document.addEventListener("click", function (e) {
+        const menu = document.getElementById("mobile-menu");
+        const toggle = document.getElementById("nav-toggle");
+        if (
+          menu.classList.contains("open") &&
+          !menu.contains(e.target) &&
+          !toggle.contains(e.target)
+        ) {
+          menu.classList.remove("open");
+        }
+      });
+
+      // ...existing code...
+
+      // Mobile Account link (show login modal)
+      document
+        .getElementById("account-link-mobile")
+        ?.addEventListener("click", function (e) {
+          e.preventDefault();
+          showLoginModal();
+          // Optionally close the mobile menu after click
+          document.getElementById("mobile-menu").classList.remove("open");
+        });
+
+      // Mobile Help Desk link (open chatbot)
+      document
+        .getElementById("help-desk-link-mobile")
+        ?.addEventListener("click", function (e) {
+          e.preventDefault();
+          openChatbot();
+          // Optionally close the mobile menu after click
+          document.getElementById("mobile-menu").classList.remove("open");
+        });
+
+      document
+        .getElementById("account-link")
+        ?.addEventListener("click", showLoginModal);
+
+      // ...existing code...
     </script>
+
     <script src="script.js"></script>
   </body>
 </html>
